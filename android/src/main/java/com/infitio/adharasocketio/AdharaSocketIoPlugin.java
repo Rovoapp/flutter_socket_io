@@ -62,6 +62,9 @@ public class AdharaSocketIoPlugin implements MethodCallHandler {
                             options.query = sb.toString();
                         }
                     }
+                    if(call.hasArgument("path")&&call.argument("enableLogging")!=null){
+                        call.path = call.argument("enableLogging")
+                    }
                     if(call.hasArgument("enableLogging")){
                         options.enableLogging = call.argument("enableLogging");
                     }

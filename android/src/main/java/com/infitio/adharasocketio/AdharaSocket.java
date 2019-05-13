@@ -147,13 +147,10 @@ class AdharaSocket implements MethodCallHandler {
         String uri;
         int index;
         public Boolean enableLogging = false;
-        String path;
-        public Boolean forceWebsockets = false;
 
-        Options(int index, String uri, String path){
+        Options(int index, String uri){
             this.index = index;
             this.uri = uri;
-            this.path = path;
         }
 
     }
