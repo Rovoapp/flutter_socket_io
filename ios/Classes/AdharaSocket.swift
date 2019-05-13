@@ -27,7 +27,15 @@ public class AdharaSocket: NSObject, FlutterPlugin {
     }
 
     public init(_ channel:FlutterMethodChannel, _ config:AdharaSocketIOClientConfig) {
-        manager = SocketManager(socketURL: URL(string: config.uri)!, config: [.log(true), .connectParams(config.query), .path(config.path), .forceWebSockets(config.forceWebSockets)])
+        var options: [SocketIOClientOption] = [
+            .log(config.enableLogging),
+            .connectParams(config.query),
+            .forceWebsockets(config.forceWebSockets),
+        ]
+        if (let path = config.path) {
+            options.add(.path(path))
+        }
+        manager = SocketManager(socketURL: URL(string: config.uri)!, config: options)
         socket = manager.defaultSocket
         self.channel = channel
         self.config = config
@@ -99,7 +107,7 @@ public class AdharaSocketIOClientConfig: NSObject{
     let path: String?
     public var query:[String:String]
     public var enableLogging:Bool
-    public var forceWebSockets:Bool
+    public var forceWebsockets:Bool
 
 
     init(_ adharaId:Int, uri:String, path: String?) {
@@ -108,7 +116,7 @@ public class AdharaSocketIOClientConfig: NSObject{
         self.query = [String:String]()
         self.enableLogging = false
         self.path = path
-        self.forceWebSockets = false
+        self.forceWebsockets = false
     }
 
 }
