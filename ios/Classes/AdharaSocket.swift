@@ -14,12 +14,12 @@ import SocketIO
 
 
 public class AdharaSocket: NSObject, FlutterPlugin {
-    
+
     let socket: SocketIOClient
     let channel: FlutterMethodChannel
     let manager: SocketManager
     let config: AdharaSocketIOClientConfig
-    
+
     private func log(_ items: Any...){
         if(config.enableLogging){
             print(items)
@@ -27,7 +27,7 @@ public class AdharaSocket: NSObject, FlutterPlugin {
     }
 
     public init(_ channel:FlutterMethodChannel, _ config:AdharaSocketIOClientConfig) {
-        manager = SocketManager(socketURL: URL(string: config.uri)!, config: [.log(true), .connectParams(config.query)])
+        manager = SocketManager(socketURL: URL(string: config.uri)!, config: [.log(true), .connectParams(config.query), .path(config.path), .forceWebSocket(config.forceWebSocket)])
         socket = manager.defaultSocket
         self.channel = channel
         self.config = config
@@ -40,7 +40,7 @@ public class AdharaSocket: NSObject, FlutterPlugin {
         registrar.addMethodCallDelegate(instance, channel: channel)
         return instance
     }
-    
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         var arguments: [String: AnyObject]
         if(call.arguments != nil){
@@ -85,25 +85,30 @@ public class AdharaSocket: NSObject, FlutterPlugin {
                 result(FlutterError(code: "404", message: "No such method", details: nil))
         }
     }
-    
+
     public static func register(with registrar: FlutterPluginRegistrar) {
         //        Do nothing...
     }
-    
+
 }
 
 public class AdharaSocketIOClientConfig: NSObject{
-    
+
     let adharaId:Int
     let uri:String
+    let path: String?
     public var query:[String:String]
     public var enableLogging:Bool
-    
-    init(_ adharaId:Int, uri:String) {
+    public var forceWebSocket:Bool
+
+
+    init(_ adharaId:Int, uri:String, path: String?) {
         self.adharaId = adharaId
         self.uri = uri
         self.query = [String:String]()
         self.enableLogging = false
+        self.path = path
+        self.forceWebSocket = false
     }
-    
+
 }
