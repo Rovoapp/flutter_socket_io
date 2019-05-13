@@ -30,7 +30,7 @@ public class AdharaSocket: NSObject, FlutterPlugin {
         var socketConfigurations:SocketIOClientConfiguration = [
             .log(config.enableLogging),
             .connectParams(config.query),
-            .forceWebsockets(config.forceWebSockets),
+            .forceWebsockets(config.forceWebsockets),
         ]
         if let path = config.path {
             socketConfigurations.insert(.path(path))
