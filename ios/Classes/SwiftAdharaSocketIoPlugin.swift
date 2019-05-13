@@ -34,8 +34,8 @@ public class SwiftAdharaSocketIoPlugin: NSObject, FlutterPlugin {
                 if let enableLogging: Bool = arguments["enableLogging"] as? Bool {
                     config.enableLogging = enableLogging
                 }
-                if let forceWebSockets: Bool = arguments["forceWebSockets"] as? Bool {
-                    config.forceWebSockets = forceWebSockets
+                if let forceWebsockets: Bool = arguments["forceWebsockets"] as? Bool {
+                    config.forceWebsockets = forceWebsockets
                 }
                 instances.append(AdharaSocket.getInstance(registrar, config))
                 result(newIndex)
