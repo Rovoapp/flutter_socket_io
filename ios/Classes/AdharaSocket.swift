@@ -27,15 +27,15 @@ public class AdharaSocket: NSObject, FlutterPlugin {
     }
 
     public init(_ channel:FlutterMethodChannel, _ config:AdharaSocketIOClientConfig) {
-        var options: [SocketIOClientOption] = [
+        var socketConfigurations:SocketIOClientConfiguration = [
             .log(config.enableLogging),
             .connectParams(config.query),
             .forceWebsockets(config.forceWebSockets),
         ]
-        if (let path = config.path) {
-            options.add(.path(path))
+        if let path = config.path {
+            socketConfigurations.insert(.path(path))
         }
-        manager = SocketManager(socketURL: URL(string: config.uri)!, config: options)
+        manager = SocketManager(socketURL: URL(string: config.uri)!, config: socketConfigurations)
         socket = manager.defaultSocket
         self.channel = channel
         self.config = config
