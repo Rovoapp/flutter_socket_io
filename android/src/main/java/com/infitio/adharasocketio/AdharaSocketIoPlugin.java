@@ -48,7 +48,7 @@ public class AdharaSocketIoPlugin implements MethodCallHandler {
             case "newInstance": {
                 try{
                     int newIndex = instances.size();
-                    AdharaSocket.Options options = new AdharaSocket.Options(newIndex, (String)call.argument("uri"), (String)call.argument("path"));
+                    AdharaSocket.Options options = new AdharaSocket.Options(newIndex, (String)call.argument("uri"));
                     if(call.hasArgument("query")) {
                         Map<String, String> _query = call.argument("query");
                         if(_query!=null) {
@@ -63,14 +63,14 @@ public class AdharaSocketIoPlugin implements MethodCallHandler {
                         }
                     }
                     if(call.hasArgument("path")&&call.argument("path")!=null){
-                        call.path = call.argument("path");
+                        options.path = call.argument("path");
                     }
                     if(call.hasArgument("enableLogging")){
                         options.enableLogging = call.argument("enableLogging");
                     }
-                    if(call.hasArgument("forceWebsockets")){
-                        options.forceWebsockets = call.argument("forceWebsockets");
-                    }
+                    // if(call.hasArgument("forceWebsockets")){
+                    //     options.forceWebsockets = call.argument("forceWebsockets");
+                    // }
                     this.instances.add(AdharaSocket.getInstance(registrar, options));
                     result.success(newIndex);
                 }catch (URISyntaxException use){
